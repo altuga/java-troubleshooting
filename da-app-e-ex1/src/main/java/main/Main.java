@@ -7,7 +7,7 @@ public class Main {
   }
 
   public static void a() {
-    System.out.println("A executes ....");
+    System.out.println("A executes .....");
     b();
   }
 

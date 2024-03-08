@@ -17,7 +17,9 @@ public class ProductController {
   }
 
   @GetMapping("/total/costs")
+  //@SchemaMapping(typeName = "Query", fieldName = "bookById")
   public TotalCostResponse totalCosts() {
+
     return productService.getTotalCosts();
   }
 

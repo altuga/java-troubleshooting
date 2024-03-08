@@ -13,4 +13,14 @@
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
+    <!-- https://mvnrepository.com/artifact/com.graphql-java/graphql-java -->
+    <dependencies>
+    <dependency>
+        <groupId>com.graphql-java</groupId>
+        <artifactId>graphql-java</artifactId>
+        <version>21.3</version>
+    </dependency>
+    </dependencies>
+
+
 </project>

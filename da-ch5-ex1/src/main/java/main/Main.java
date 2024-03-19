@@ -6,7 +6,7 @@ public class Main {
 
   public static void main(String[] args) {
     Decoder d = new Decoder();
-    var result = d.decode(List.of("ab1c", "a112c", "abcd", "1234"));
+    var result = d.decode(List.of("ab1c", "a112c", "abcd", "1234", "hello world"));
     System.out.println(result);
   }
 }

@@ -14,7 +14,8 @@ public class DemoController {
   }
 
   @GetMapping("/demo")
-  public void demo() {
+  public String demo() {
     demoProxy.delay(5);
+    return "done";
   }
 }

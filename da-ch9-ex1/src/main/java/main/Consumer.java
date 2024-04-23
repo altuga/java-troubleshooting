@@ -17,7 +17,7 @@ public class Consumer extends Thread {
         if (Main.list.size() > 0) {
           int x = Main.list.get(0);
           Main.list.remove(0);
-          log.info("Consumer " + Thread.currentThread().getName() + " removed value " + x);
+          log.info("Consumer " + Thread.currentThread().getName() + " removed value... " + x);
         }
       }
     }

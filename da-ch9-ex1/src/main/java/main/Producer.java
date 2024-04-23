@@ -19,7 +19,7 @@ public class Producer extends Thread {
         if (Main.list.size() < 100) {
           int x = r.nextInt();
           Main.list.add(x);
-          log.info("Producer " + Thread.currentThread().getName() + " added value " + x);
+          log.info("Producer > " + Thread.currentThread().getName() + " added value " + x);
         }
       }
     }

@@ -19,6 +19,8 @@ public class One {
         CompletableFuture<Void> result =  CompletableFuture.allOf(cf1,cf2 ); // signals that it is finished
         result.join();
         executorService.shutdown();
+
+        System.out.println("app is finished ");
     }
 
     public static int process(int value) {

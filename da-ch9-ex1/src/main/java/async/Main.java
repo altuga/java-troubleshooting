@@ -13,14 +13,15 @@ public class Main {
     }
 
     public static void work03() throws InterruptedException, ExecutionException {
-
-        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> 10); // supply an initial
-                                                                                                // value of 10
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> 10);
         completableFuture = completableFuture.thenApply(f -> f + 1).thenApply(f -> f + 2);
+        completableFuture.thenRun(() -> {
+            System.out.println("After multiplication: hello" ); 
+        }); // side-effect
 
-        System.out.println(completableFuture.get()); // this will print 13
+        System.out.println("Final result: " + completableFuture.get()); // this will print 13
     }
-
+    
     public static void work02() {
 
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();

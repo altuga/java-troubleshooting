@@ -17,6 +17,21 @@ public class Blocking {
     }
 
 
+    /**
+     * String::toUpperCase ve String::toUpperCase fonksiyonları register ediliyor.
+     * Ama bu non-blocking 
+     * @throws Exception
+     */
+    public static void chained() throws Exception  {
+        findAnswersFromAPI("java").thenAccept(status -> {
+                if (status) {
+                    
+                }
+        });
+
+            
+    }
+
 
     /**
      * String::toUpperCase ve String::toUpperCase fonksiyonları register ediliyor.

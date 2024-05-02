@@ -9,9 +9,25 @@ import java.util.concurrent.Future;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        work03();
+        work04();
     }
 
+
+    // combining the Future combine example
+    public static void work04() throws InterruptedException, ExecutionException {
+        CompletableFuture<Integer> completableFuture1 = CompletableFuture.supplyAsync(() -> 10) ;
+        CompletableFuture<Integer> completableFuture2= CompletableFuture.supplyAsync(() -> 20);
+
+        completableFuture1 = completableFuture1.thenApply(f-> f * 5);
+        completableFuture1 = completableFuture1.thenCombine(completableFuture2, Integer::sum);
+        completableFuture1.thenRun(() -> {
+            System.out.println("Thread Name -> "  +  Thread.currentThread().getName() ); 
+        }); // side-effect
+        Integer result = completableFuture1.get();
+        System.out.println("Result : " + result );
+    }
+
+    // CompletableFuture thenApply
     public static void work03() throws InterruptedException, ExecutionException {
         CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> 10);
         completableFuture = completableFuture.thenApply(f -> f + 1).thenApply(f -> f + 2);

@@ -12,7 +12,7 @@ public class Blocking {
     static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public static void main(String[] args) throws Exception {
-        thenApplyChainedNonBlocking();
+        chained();
         System.out.println("Finished " + Thread.currentThread().getName());
     }
 
@@ -23,9 +23,11 @@ public class Blocking {
      * @throws Exception
      */
     public static void chained() throws Exception  {
-        findAnswersFromAPI("java").thenAccept(status -> {
-                if (status) {
-                    
+        javaQuestions().thenAccept(status -> {
+                if (status != null) {
+                    System.out.println("app is finished");
+                } else {
+                    System.out.println("app is not finished");
                 }
         });
 
@@ -144,6 +146,13 @@ public class Blocking {
             System.out.println(" --> " +   Thread.currentThread().getName() );
             return  getAnswerFromAPI(tag);};
         return executorService.submit(task);
+    }
+
+    public static CompletableFuture<String> javaQuestions()  {
+        return 
+            CompletableFuture.supplyAsync(() -> getAnswerFromAPI("java"), executorService);
+
+       
     }
 
 

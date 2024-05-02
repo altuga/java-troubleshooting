@@ -1,6 +1,7 @@
 package async;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -11,10 +12,82 @@ public class Blocking {
     static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public static void main(String[] args) throws Exception {
-        waitForFirstOrAll();
+        thenApplyChainedNonBlocking();
         System.out.println("Finished " + Thread.currentThread().getName());
     }
 
+
+
+    /**
+     * String::toUpperCase ve String::toUpperCase fonksiyonları register ediliyor.
+     * Ama bu non-blocking 
+     * @throws Exception
+     */
+    public static void thenApplyChainedNonBlocking() throws Exception  {
+        final CompletableFuture<String> java = CompletableFuture.supplyAsync(
+                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
+                    
+         
+            java.thenApply(String::toUpperCase).
+            thenApply(String::length).
+            thenAccept((Integer result) -> System.out.println(result)); // non-blocking
+
+            
+    }
+
+
+    /**
+     * String::toUpperCase ve String::toUpperCase fonksiyonları register ediliyor.
+     * @throws Exception
+     */
+    public static void thenApplyChained() throws Exception  {
+        final CompletableFuture<String> java = CompletableFuture.supplyAsync(
+                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
+                    
+        final CompletableFuture<Integer> length = java.thenApply(String::toUpperCase).thenApply(String::length);
+
+        System.out.println(" --> " + length.get()) ;   // blocking yapıyor            
+    }
+
+
+
+    /**
+     * Bu ornekte once main thread bitiyor, sonra Future task bitiyor
+     * Call back hell var
+     * @throws Exception
+     */
+    public static void callbacksEverywhere() throws Exception  {
+        final CompletableFuture<String> java = CompletableFuture.supplyAsync(
+                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
+                       
+        System.out.println(" --> " + java.thenAccept((String result) -> System.out.println(result) )) ;               
+    }
+
+
+   /**
+     * Bu method supplyAsync() ile aynı, tek fark  executorService kullanması
+     * @throws Exception
+     */
+    public static void supplyAsyncWithExecutorService() throws Exception  {
+        final CompletableFuture<String> java = CompletableFuture.supplyAsync(
+                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
+                       
+        System.out.println(" --> " + java.get()) ;               
+    }
+
+    /**
+     * 1 - Burada ne eksik
+     *   - Executor service içerisinde çağrılmamıi, default fork-join kullanılıyor
+     *   - fork-join içerisindeki pool mekanizmasını göster
+     *   - Timeout yok
+     * @throws Exception
+     */
+    public static void supplyAsync() throws Exception  {
+        final CompletableFuture<String> java = CompletableFuture.supplyAsync(
+                        ()-> getAnswerFromAPI("java")); // running a blocking code 
+                       
+        System.out.println(" --> " + java.get()) ;               
+    }
 
     public static void waitForFirstOrAll() throws Exception  {
         final Future<String>  api_A =  findAnswersFromAPI("A");
@@ -26,7 +99,7 @@ public class Blocking {
     
     public static void executorService()  throws Exception {
        
-        final Callable<String>  task = () -> getAnswerFromAPI();
+        final Callable<String>  task = () -> getAnswerFromAPI("a");
         final Future<String> answer = executorService.submit(task);
 
          System.out.println(answer.get(10, TimeUnit.SECONDS)); // blocking
@@ -35,26 +108,26 @@ public class Blocking {
 
     
     public static void blockingCall() {
-        String answer = getAnswerFromAPI(); // blocking 
+        String answer = getAnswerFromAPI("a"); // blocking 
         System.out.println(answer);
 
     }
 
 
-    public static String getAnswerFromAPI()  {
+    public static String getAnswerFromAPI(String tag)  {
         try {
             Thread.sleep(ThreadLocalRandom.current().nextLong(1000, 10000));
         } catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println(" " + e );
         }
-        return "Answer from A";
+        return "Answer from " + tag;
     }
 
-    public static Future<String> findAnswersFromAPI(String apiName)  {
+    public static Future<String> findAnswersFromAPI(String tag)  {
         final Callable<String> task =  () -> {
             System.out.println(" --> " +   Thread.currentThread().getName() );
-            return  getAnswerFromAPI();};
+            return  getAnswerFromAPI(tag);};
         return executorService.submit(task);
     }
 

@@ -16,7 +16,7 @@ public class ConcurrentDataProcessing {
                 e.printStackTrace();
             }
             // Store retrieved data from source 1 (replace with your actual logic)
-            String data1 = "Data from source 1";
+            System.out.println("Data from source 1");
         };
 
         Runnable source2Task = () -> {
@@ -27,7 +27,7 @@ public class ConcurrentDataProcessing {
                 e.printStackTrace();
             }
             // Store retrieved data from source 2 (replace with your actual logic)
-            String data2 = "Data from source 1";
+            System.out.println("Data from source 2");
         };
 
         // Create threads for each task

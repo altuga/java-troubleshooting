@@ -1,28 +1,26 @@
 package async;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Two {
+public class Three {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
 
-        ExecutorService executorServiceTwo = Executors.newFixedThreadPool(4);
+        ExecutorService executorServiceTwo = Executors.newFixedThreadPool(3);
         CompletableFuture<Integer> cf1 =
                 CompletableFuture.supplyAsync(() -> {
 
-                            throw new RuntimeException("hata");
-                        },
-                        executorServiceTwo);
+                            return process(1);
+                        });
 
         CompletableFuture<Integer> cf2 =
                 CompletableFuture.supplyAsync(() -> {
                     return process(2);
-                }, executorServiceTwo);
+                });
 
 
         CompletableFuture<Object> result = CompletableFuture.anyOf(cf1, cf2); // signals that it is finished
@@ -43,4 +41,5 @@ public class Two {
         }
         return value;
     }
+
 }

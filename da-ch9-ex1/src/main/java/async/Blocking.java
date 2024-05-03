@@ -12,6 +12,7 @@ public class Blocking {
     static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public static void main(String[] args) throws Exception {
+        // supplyAsyncWithExecutorService();
         chained();
         System.out.println("Finished " + Thread.currentThread().getName());
     }
@@ -42,7 +43,7 @@ public class Blocking {
      */
     public static void thenApplyChainedNonBlocking() throws Exception  {
         final CompletableFuture<String> java = CompletableFuture.supplyAsync(
-                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
+                        ()-> getAnswerFromAPI("java"), executorService); // running a blocking code
                     
          
             java.thenApply(String::toUpperCase).
@@ -89,7 +90,7 @@ public class Blocking {
         final CompletableFuture<String> java = CompletableFuture.supplyAsync(
                         ()-> getAnswerFromAPI("java"), executorService); // running a blocking code 
                        
-        System.out.println(" --> " + java.get()) ;               
+        System.out.println(" --> " + java.get()) ;    // blocking
     }
 
     /**
@@ -131,6 +132,11 @@ public class Blocking {
     }
 
 
+    /**
+     * Blocking operation
+     * @param tag
+     * @return
+     */
     public static String getAnswerFromAPI(String tag)  {
         try {
             Thread.sleep(ThreadLocalRandom.current().nextLong(1000, 10000));

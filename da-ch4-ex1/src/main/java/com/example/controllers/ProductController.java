@@ -67,4 +67,25 @@ public class ProductController {
         });
 
     }
+
+    @GetMapping("/total/costs/v4")
+    //@SchemaMapping(typeName = "Query", fieldName = "bookById")
+    public CompletableFuture<TotalCostResponse> totalCostsv4() {
+
+        /**
+         *
+         */
+
+        return productService.getTotalCostsAsyncWayForkJoin().thenApply(value -> {
+            if (value != null) {
+                System.out.println("app is finished " + Thread.currentThread().getName());
+                return value;
+            } else {
+                System.out.println("app is not finished");
+                return null;
+            }
+        });
+
+
+    }
 }

@@ -25,6 +25,11 @@ public class ProductService {
     return
             CompletableFuture.supplyAsync(() -> getTotalCosts(), executorService);
 
+  }
+
+  public  CompletableFuture<TotalCostResponse> getTotalCostsAsyncWayForkJoin()  {
+    return
+            CompletableFuture.supplyAsync(() -> getTotalCosts());
 
   }
 

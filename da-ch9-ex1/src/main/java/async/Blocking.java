@@ -20,6 +20,7 @@ public class Blocking {
     /**
      * String::toUpperCase ve String::toUpperCase fonksiyonları register ediliyor.
      * Ama bu non-blocking 
+     * Bu esas nokta...
      * @throws Exception
      */
     public static void chained() throws Exception  {

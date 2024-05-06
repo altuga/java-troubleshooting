@@ -21,6 +21,34 @@ public class ProductService {
   }
 
 
+
+  public int calculate() {
+    int lowerBound = 100;
+    int upperBound = 20000; 
+    int count = 0;
+
+    for (int i = lowerBound; i <= upperBound; i++) {
+      if (isPrime(i)) {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+
+  public  boolean isPrime(int num) {
+    if (num <= 1) {
+      return false;
+    }
+    for (int i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public  CompletableFuture<TotalCostResponse> getTotalCostsAsyncWay()  {
     return
             CompletableFuture.supplyAsync(() -> getTotalCosts(), executorService);
@@ -45,9 +73,8 @@ public class ProductService {
               p -> p.getPrice().multiply(new BigDecimal(p.getQuantity()))));
 
       Thread.sleep(ThreadLocalRandom.current().nextInt(1000,5000));
-      //Thread.currentThread().wait();
       response.setTotalCosts(costs);
-      System.out.println(" Thread name " + Thread.currentThread().getName());
+      System.out.println(" Service Thread name " + Thread.currentThread().getName());
     } catch (Exception e) {
       e.printStackTrace(); // do nothing
     }

@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+
 
 @RestController
 @RequestMapping("/api/product")
@@ -22,13 +20,21 @@ public class ProductController {
     }
 
 
+    @GetMapping("/total/costs/prime")
+    public int findPrime() {
 
+        // CPU intensive
+        return productService.calculate();
+
+    }
 
     @GetMapping("/total/costs/v1")
     //@SchemaMapping(typeName = "Query", fieldName = "bookById")
     public TotalCostResponse totalCostsv1() {
 
+        System.out.println("Controller Thread name " + Thread.currentThread().getName());
         return productService.getTotalCosts();
+
 
     }
 
@@ -42,10 +48,10 @@ public class ProductController {
 
         return productService.getTotalCostsAsyncWay().thenApply(value -> {
             if (value != null) {
-                System.out.println("app is finished " + Thread.currentThread().getName());
+                System.out.println("Controller app is finished " + Thread.currentThread().getName());
                 return value;
             } else {
-                System.out.println("app is not finished");
+                System.out.println("Controller is not finished");
                 return null;
             }
         });
@@ -58,10 +64,10 @@ public class ProductController {
 
         return productService.getTotalCostsAsync().thenApply(value -> {
             if (value != null) {
-                System.out.println("app is finished " + Thread.currentThread().getName());
+                System.out.println("Controller app is finished " + Thread.currentThread().getName());
                 return value;
             } else {
-                System.out.println("app is not finished");
+                System.out.println("Controller app is not finished");
                 return null;
             }
         });
@@ -78,10 +84,10 @@ public class ProductController {
 
         return productService.getTotalCostsAsyncWayForkJoin().thenApply(value -> {
             if (value != null) {
-                System.out.println("app is finished " + Thread.currentThread().getName());
+                System.out.println("Controller app is finished " + Thread.currentThread().getName());
                 return value;
             } else {
-                System.out.println("app is not finished");
+                System.out.println("Controller app is not finished");
                 return null;
             }
         });

@@ -45,7 +45,7 @@ public class ProductController {
         /**
          *
          */
-
+        System.out.println(" Thread name " + Thread.currentThread().getName());
         return productService.getTotalCostsAsyncWay().thenApply(value -> {
             if (value != null) {
                 System.out.println("Controller app is finished " + Thread.currentThread().getName());

@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.DummyProcess;
 import com.example.model.dtos.TotalCostResponse;
 import com.example.model.entities.Product;
 import com.example.repositories.ProductRepository;
@@ -8,8 +9,11 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.LongSummaryStatistics;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 @Service
 public class ProductService {
@@ -59,6 +63,29 @@ public class ProductService {
     return
             CompletableFuture.supplyAsync(() -> getTotalCosts());
 
+  }
+
+
+  public TotalCostResponse getTotalCostsForked() {
+    TotalCostResponse response = new TotalCostResponse();
+    try {
+
+
+      var products = productRepository.findAll();
+
+      var costs = products.stream().parallel()
+              .collect(Collectors.toMap(
+                      Product::getName,
+                      p -> p.getPrice().multiply(new BigDecimal(p.getQuantity()))));
+
+      Thread.sleep(ThreadLocalRandom.current().nextInt(1000,5000));
+      response.setTotalCosts(costs);
+      System.out.println(" Service Thread name " + Thread.currentThread().getName());
+    } catch (Exception e) {
+      e.printStackTrace(); // do nothing
+    }
+
+    return response;
   }
 
 

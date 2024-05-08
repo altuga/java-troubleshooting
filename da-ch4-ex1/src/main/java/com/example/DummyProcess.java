@@ -111,7 +111,7 @@ public class DummyProcess {
         int  result = bufferedReader.read();
 
 //        DummyProcess.seq();
-        DummyProcess.ps();
+       // DummyProcess.ps();
 //        DummyProcess.cf();
 //        DummyProcess.cf_directJoin();
 //        DummyProcess.cfps();

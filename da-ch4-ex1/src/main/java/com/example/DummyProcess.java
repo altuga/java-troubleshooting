@@ -3,6 +3,8 @@ package com.example;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -99,10 +101,14 @@ public class DummyProcess {
         return Duration.between(start, Instant.now()).toMillis();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         System.out.println("CPU Core: " + Runtime.getRuntime().availableProcessors());
+
         System.out.println("CommonPool Parallelism: " + ForkJoinPool.commonPool().getParallelism());
         System.out.println("CommonPool Common Parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        int  result = bufferedReader.read();
 
 //        DummyProcess.seq();
         DummyProcess.ps();
@@ -111,6 +117,8 @@ public class DummyProcess {
 //        DummyProcess.cfps();
         DummyProcess.cfps_directJoin();
 //        DummyProcess.cf200ps();
-        System.exit(0);
+          result = bufferedReader.read();
+        System.out.printf(" " + result);
+       // System.exit(0);
     }
 }

@@ -8,8 +8,8 @@ public class GetDataConcurrentWithJoin {
         long startTime = System.currentTimeMillis();
 
         // Define tasks to retrieve data from sources
-        Callable<Long> source1Task = () -> retrieveDataFromSource1();
-        Callable<Long> source2Task = () -> retrieveDataFromSource2();
+        Callable<Long> source1Task = GetDataConcurrentWithJoin::retrieveDataFromSource1;
+        Callable<Long> source2Task = GetDataConcurrentWithJoin::retrieveDataFromSource2;
 
         // Create and start threads
         ExecutorService executor = Executors.newFixedThreadPool(2);

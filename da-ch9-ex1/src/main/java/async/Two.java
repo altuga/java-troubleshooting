@@ -25,10 +25,10 @@ public class Two {
                 }, executorServiceTwo);
 
 
-        CompletableFuture<Object> result = CompletableFuture.anyOf(cf1, cf2); // signals that it is finished
-        result.thenAccept(System.out::println).
-
-                join();
+        CompletableFuture<Void> result = CompletableFuture.allOf(cf1, cf2); // signals that it is finished
+        result.join();
+        // in order to show the error message in the thread
+        //result.thenAccept(System.out::println).join();
         executorServiceTwo.shutdown();
 
         System.out.println("app is finished ");

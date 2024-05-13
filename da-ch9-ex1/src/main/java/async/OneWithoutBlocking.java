@@ -1,25 +1,30 @@
 package async;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class One {
+public class OneWithoutBlocking {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> process(1), executorService);
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(2), executorService);
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> process(1), executorService)
+                .thenApply(result -> {
+                    System.out.println("It is ready: " + result + " " + Thread.currentThread().getName());
+                    return result;
+                });
 
-        cf1.get(); // blocking Thread
-        CompletableFuture<Void> result = CompletableFuture.allOf(cf1, cf2); // signals that it is finished
-        result.join();
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(1), executorService)
+                .thenApply(result -> {
+                    System.out.println("It is ready: " + result + " " + Thread.currentThread().getName());
+                    return result;
+                });
+
+
+
         executorService.shutdown();
 
         System.out.println("app is finished ");

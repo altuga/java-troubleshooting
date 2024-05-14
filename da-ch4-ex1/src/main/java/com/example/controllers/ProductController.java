@@ -1,12 +1,18 @@
 package com.example.controllers;
 
 import com.example.model.dtos.TotalCostResponse;
+import com.example.model.entities.CardInfo;
 import com.example.services.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 
 @RestController
@@ -91,6 +97,21 @@ public class ProductController {
                 return null;
             }
         });
+
+
+    }
+
+
+    @GetMapping("/total/costs/v5")
+    //@SchemaMapping(typeName = "Query", fieldName = "bookById")
+    public List<CardInfo> totalCostsv5() {
+        System.out.println("Controller Thread name " + Thread.currentThread().getName());
+        try {
+            return productService.getCardInfos();
+        } catch (InterruptedException e) {
+            Logger.getLogger("default").log(Level.SEVERE, "Error " + e.getMessage() );
+            throw new RuntimeException(e);
+        }
 
 
     }

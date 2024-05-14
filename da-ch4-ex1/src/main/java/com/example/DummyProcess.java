@@ -70,7 +70,7 @@ public class DummyProcess {
         Instant start = Instant.now();
         LongSummaryStatistics stats = LongStream.range(0, loops).boxed()
                 .parallel()
-                .map(number -> CompletableFuture.supplyAsync(() -> DummyProcess.slowNetworkCall(number), customPool))
+                .map(number -> CompletableFuture.supplyAsync(() -> DummyProcess.slowNetworkCall(number)))
                 .map(CompletableFuture::join)
                 .mapToLong(Long::longValue).summaryStatistics();
 

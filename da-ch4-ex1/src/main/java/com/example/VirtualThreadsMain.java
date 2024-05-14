@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.Executors;
 
+/*
 @Configuration
 @ConditionalOnProperty(
         value = "thread-mode",
@@ -39,3 +40,4 @@ public class VirtualThreadsMain {
     }
 
 }
+*/

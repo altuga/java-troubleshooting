@@ -15,9 +15,9 @@ public class One {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> process(1), executorService);
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(2), executorService);
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(2),executorService);
 
-        cf1.get(); // blocking Thread
+        //cf1.get(); // blocking Thread
         CompletableFuture<Void> result = CompletableFuture.allOf(cf1, cf2); // signals that it is finished
         result.join();
         executorService.shutdown();

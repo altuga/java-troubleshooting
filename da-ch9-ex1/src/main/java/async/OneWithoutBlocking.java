@@ -17,7 +17,7 @@ public class OneWithoutBlocking {
                     return result;
                 });
 
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(1), executorService)
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process(2), executorService)
                 .thenApply(result -> {
                     System.out.println("It is ready: " + result + " " + Thread.currentThread().getName());
                     return result;

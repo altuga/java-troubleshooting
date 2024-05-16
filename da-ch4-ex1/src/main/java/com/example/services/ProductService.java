@@ -26,7 +26,7 @@ public class ProductService {
 
 
   private final ProductRepository productRepository;
-  static ExecutorService executorService = Executors.newFixedThreadPool(15);
+  static ExecutorService executorService = Executors.newFixedThreadPool(10);
   public ProductService(ProductRepository productRepository) {
     this.productRepository = productRepository;
   }
@@ -99,16 +99,20 @@ public class ProductService {
   public TotalCostResponse getTotalCosts() {
     TotalCostResponse response = new TotalCostResponse();
     try {
-      var products = productRepository.findAll();
+      var products = productRepository.findAll(); // IO
 
       var costs = products.stream()
           .collect(Collectors.toMap(
               Product::getName,
-              p -> p.getPrice().multiply(new BigDecimal(p.getQuantity()))));
+              p -> p.getPrice().multiply(new BigDecimal(p.getQuantity())))); // CPU
 
-      Thread.sleep(ThreadLocalRandom.current().nextInt(1000,5000));
+      Thread.sleep(ThreadLocalRandom.current().nextInt(1000,5000)); // IO
       response.setTotalCosts(costs);
-      System.out.println(" Service Thread name " + Thread.currentThread().getName());
+      ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
+      int activeCount = threadPoolExecutor.getActiveCount();
+      long taskCount = threadPoolExecutor.getTaskCount();
+      System.out.println(" Thread name " + Thread.currentThread().getName() + "  taskcount "  + taskCount + " active count " + activeCount);
+      // System.out.println(" Service Thread name " + Thread.currentThread().getName());
     } catch (Exception e) {
       e.printStackTrace(); // do nothing
     }
@@ -130,7 +134,10 @@ public class ProductService {
       Thread.sleep(ThreadLocalRandom.current().nextInt(1000,5000));
       //Thread.currentThread().wait();
       response.setTotalCosts(costs);
-      System.out.println(" Thread name " + Thread.currentThread().getName());
+      ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
+      int activeCount = threadPoolExecutor.getActiveCount();
+      long taskCount = threadPoolExecutor.getTaskCount();
+      System.out.println(" Thread name " + Thread.currentThread().getName() + "  taskcount "  + taskCount + " active count " + activeCount);
     } catch (Exception e) {
       e.printStackTrace(); // do nothing
     }

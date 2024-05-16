@@ -111,7 +111,10 @@ public class ProductService {
       ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
       int activeCount = threadPoolExecutor.getActiveCount();
       long taskCount = threadPoolExecutor.getTaskCount();
-      System.out.println(" Thread name " + Thread.currentThread().getName() + "  taskcount "  + taskCount + " active count " + activeCount);
+      long queueSize = threadPoolExecutor.getQueue().size();
+      System.out.println(" Thread name " + Thread.currentThread().getName() +
+              "  taskcount "  + taskCount
+              + " active count " + activeCount + " queue size " + queueSize);
       // System.out.println(" Service Thread name " + Thread.currentThread().getName());
     } catch (Exception e) {
       e.printStackTrace(); // do nothing

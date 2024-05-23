@@ -1,24 +1,17 @@
 package com.example.services;
 
-import com.example.DummyProcess;
 import com.example.model.dtos.TotalCostResponse;
 import com.example.model.entities.CardInfo;
 import com.example.model.entities.Product;
 import com.example.repositories.ProductRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 @Service
 public class ProductService {

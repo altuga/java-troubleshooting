@@ -22,8 +22,8 @@ public class One {
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> findTagsFromStackoverflow("java"), executorService);
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> findTagsFromStackoverflow("linux"), executorService);
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> process("java"), executorService);
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process("linux"), executorService);
 
         //cf1.get(); // blocking Thread
         CompletableFuture<Void> result = CompletableFuture.allOf(cf1, cf2); // signals that it is finished
@@ -33,14 +33,14 @@ public class One {
         System.out.println("app is finished ");
     }
 
-    public static int process(int value) {
+    public static int process(String value) {
         try {
             Thread.sleep(1000); // I/O operation
-            System.out.println("Thread " + Thread.currentThread().getName());
+            System.out.println("Thread " +  value + " -> "+Thread.currentThread().getName());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return value;
+        return value.length();
     }
 
 

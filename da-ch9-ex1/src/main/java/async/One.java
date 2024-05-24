@@ -22,8 +22,8 @@ public class One {
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> process("java"), executorService);
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> process("linux"), executorService);
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> findTagsFromStackoverflow("java"), executorService);
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> findTagsFromStackoverflow("linux"), executorService);
 
         //cf1.get(); // blocking Thread
         CompletableFuture<Void> result = CompletableFuture.allOf(cf1, cf2); // signals that it is finished
